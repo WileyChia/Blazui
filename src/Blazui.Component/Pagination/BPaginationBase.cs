@@ -12,6 +12,7 @@ namespace Blazui.Component.Pagination
         internal bool nextDisabled = false;
         internal bool nextArrow = false;
         internal bool prevArrow = false;
+        internal int pageSize = 50;
         /// <summary>
         /// 总记录数
         /// </summary>
@@ -41,7 +42,27 @@ namespace Blazui.Component.Pagination
         /// 每页条数
         /// </summary>
         [Parameter]
-        public int PageSize { get; set; } = 50;
+        public int PageSize
+        {
+            get => pageSize; set
+            {
+                if (pageSize == value)
+                {
+                    return;
+                }
+                pageSize = value;
+                pageCount = Convert.ToInt32(Math.Ceiling((float)Total / PageSize));
+                if (CurrentPage != 1)
+                {
+                    CurrentPage = 1;
+                    if (CurrentPageChanged != null)
+                    {
+                        _ = CurrentPageChanged(CurrentPage);
+                    }
+                    SwitchButtonStatus();
+                }
+            }
+        }
         /// <summary>
         /// 当前页码，从1开始
         /// </summary>
@@ -73,6 +94,7 @@ namespace Blazui.Component.Pagination
         public EventCallback<int> PageCountChanged { get; set; }
 
         internal int pageCount;
+
         protected override void OnInitialized()
         {
             pageCount = Convert.ToInt32(Math.Ceiling((float)Total / PageSize));
