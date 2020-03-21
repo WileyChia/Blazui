@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Blazui.Component
 {
@@ -13,9 +10,9 @@ namespace Blazui.Component
         public string Text { get; set; }
 
         /// <summary>
-        /// 宽度
+        /// 宽度（%，px，sp）
         /// </summary>
-        public float Width { get; set; }
+        public string Width { get; set; }
 
         /// <summary>
         /// 格式化参数，仅支持日期格式

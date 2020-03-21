@@ -36,12 +36,12 @@
                         @for (int i = 1; i <= Headers.Count; i++)
                         {
                             var header = Headers.ElementAt(i - 1);
-                            var width = header.Width.ToString();
-                            if (!header.Width.HasValue || header.Width.Value <= 0)
+                            var width = header.Width;
+                            if (string.IsNullOrWhiteSpace(width))
                             {
-                                width = (100d / validColumnCount).ToString();
+                                width = (100d / validColumnCount).ToString() + "%";
                             }
-                            <col name="el-table_1_column_@i" @key="header.Text" width="@width%" />
+                            <col name="el-table_1_column_@i" @key="header.Text" width="@width" />
                         }
                         <col name="gutter" width="0" />
                     </colgroup>
@@ -85,12 +85,12 @@
                         @for (int i = 1; i <= Headers.Count; i++)
                         {
                             var header = Headers.ElementAt(i - 1);
-                            var width = header.Width.ToString();
-                            if (!header.Width.HasValue || header.Width.Value <= 0)
+                            var width = header.Width;
+                            if (string.IsNullOrWhiteSpace(width))
                             {
-                                width = (100d / validColumnCount).ToString();
+                                width = (100d / validColumnCount).ToString() + "%";
                             }
-                            <col name="el-table_1_column_@i" @key="header.Text" width="@width%" />
+                            <col name="el-table_1_column_@i" @key="header.Text" width="@width" />
                         }
                     </colgroup>
                     <tbody>
@@ -146,15 +146,6 @@
                 }
             </div>
             <div class="el-table__column-resize-proxy" style="display: none;"></div>
-            @if (EnablePagination)
-            {
-                if (Math.Ceiling((float)Total / PageSize) > 1 || !NoPaginationOnSinglePage)
-                {
-                    <div style="margin-top:20px;margin-bottom:20px;text-align:right;">
-                        <BPagination Total="Total" ShowPageCount="ShowPageCount" PageSize="PageSize" CurrentPageChanged="CurrentPageChangedAsync"></BPagination>
-                    </div>
-                }
-            }
         }
         else
         {
@@ -163,4 +154,13 @@
             </CascadingValue>
         }
     </div>
+    @if (EnablePagination)
+    {
+        if (Math.Ceiling((float)Total / PageSize) > 1 || !NoPaginationOnSinglePage)
+        {
+            <div style="margin-top:20px;margin-bottom:20px;text-align:right;">
+                <BPagination Total="Total" ShowPageCount="ShowPageCount" PageSize="PageSize" CurrentPageChanged="CurrentPageChangedAsync"></BPagination>
+            </div>
+        }
+    }
 }
