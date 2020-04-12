@@ -90,6 +90,9 @@ namespace Blazui.Component
         [Parameter]
         public virtual EventCallback<MouseEventArgs> OnClick { get; set; }
         [Parameter]
+        public virtual EventCallback<KeyboardEventArgs> OnKeyPress { get; set; }
+
+        [Parameter]
         public virtual string SuffixIcon { get; set; }
         [Parameter]
         public virtual string AdditionalClearIcon { get; set; }
@@ -105,7 +108,7 @@ namespace Blazui.Component
                 _ = EnableClearButtonChanged.InvokeAsync(EnableClearButton);
             }
             Value = default;
-            Console.WriteLine($"ClearOnClick 设置输入框 {Name} 值:" + Value);
+            //Console.WriteLine($"ClearOnClick 设置输入框 {Name} 值:" + Value);
             if (ValueChanged.HasDelegate)
             {
                 _ = ValueChanged.InvokeAsync(Value);
@@ -119,9 +122,17 @@ namespace Blazui.Component
             {
                 Value = default;
             }
-            Console.WriteLine($"OnFocusAsync 设置输入框 {Name} 值:" + Value);
+            //Console.WriteLine($"OnFocusAsync 设置输入框 {Name} 值:" + Value);
             IsFocus = true;
             return Task.CompletedTask;
+        }
+
+        protected virtual void OnKeyPressEventArgs(KeyboardEventArgs args)
+        {
+            if (OnKeyPress.HasDelegate)
+            {
+                _ = OnKeyPress.InvokeAsync(args);
+            }
         }
 
         protected virtual void OnChangeEventArgs(ChangeEventArgs input)
@@ -130,13 +141,12 @@ namespace Blazui.Component
             {
                 Value = (TValue)TypeHelper.ChangeType(input.Value, typeof(TValue));
             }
-            catch (FormatException e)
+            catch (FormatException) when (string.IsNullOrWhiteSpace(input.Value.ToString()))
             {
-                if (ThrowOnInvalidValue)
-                {
-                    throw e;
-                }
                 Value = default;
+            }
+            catch (FormatException) when (ThrowOnInvalidValue)
+            {
             }
             if (ValueChanged.HasDelegate)
             {
@@ -163,7 +173,7 @@ namespace Blazui.Component
             {
                 Value = (TValue)TypeHelper.ChangeType(value, typeof(TValue));
             }
-            Console.WriteLine($"FormItem_OnReset 设置输入框 {Name} 值:" + Value);
+            //Console.WriteLine($"FormItem_OnReset 设置输入框 {Name} 值:" + Value);
             if (ValueChanged.HasDelegate)
             {
                 _ = ValueChanged.InvokeAsync(Value);
@@ -196,7 +206,7 @@ namespace Blazui.Component
             {
                 Value = FormItem.OriginValue;
             }
-            Console.WriteLine($"OnParametersSet 设置输入框 {Name} 值:" + Value);
+            //Console.WriteLine($"OnParametersSet 设置输入框 {Name} 值:" + Value);
             SetFieldValue(Value, false);
         }
 

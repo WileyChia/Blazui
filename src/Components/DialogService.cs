@@ -128,7 +128,7 @@ namespace Blazui.Component
             var dialogResult = await taskCompletionSource.Task;
             return new DialogResult<TResult>()
             {
-                Result = (TResult)dialogResult.Result
+                Result = dialogResult == null ? default : dialogResult.Result == null ? default : (TResult)dialogResult.Result
             };
         }
 

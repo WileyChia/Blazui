@@ -140,6 +140,12 @@ namespace Blazui.Component
         public int Height { get; set; }
 
         /// <summary>
+        /// 表项Padding
+        /// </summary>
+        [Parameter]
+        public string ItemPadding { get; set; } = "12px 0";
+
+        /// <summary>
         /// 启用斑马纹
         /// </summary>
         [Parameter]
