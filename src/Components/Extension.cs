@@ -29,12 +29,12 @@ namespace Blazui.Component
             services.AddScoped<DialogService>();
             services.AddScoped<PopupService>();
             services.AddScoped<MessageBox>();
-            var httpClient = services.BuildServiceProvider().GetRequiredService<IHttpClientFactory>().CreateClient();
+            /*var httpClient = services.BuildServiceProvider().GetRequiredService<IHttpClientFactory>().CreateClient();
             var configuration = await SetLocaleAsync(httpClient, lang);
             services.AddSingleton(provider =>
             {
                 return new BLang(configuration, lang, SetLocaleAsync, httpClient);
-            });
+            });*/
             return services;
         }
 

@@ -37,8 +37,8 @@ namespace Blazui.Component
         [Inject]
         public LoadingService LoadingService { get; set; }
 
-        [Inject]
-        protected BLang Lang { get; set; }
+        //[Inject]
+        //protected BLang Lang { get; set; }
 
         [Parameter]
         public Func<object, Task> OnRenderCompleted { get; set; }
@@ -62,10 +62,10 @@ namespace Blazui.Component
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        public string T(string text)
+        /*public string T(string text)
         {
             return Lang.T(text);
-        }
+        }*/
         /// <summary>
         /// 弹出 Alert 消息
         /// </summary>
